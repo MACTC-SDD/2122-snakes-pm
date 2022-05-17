@@ -216,20 +216,24 @@ wn.listen()
 # When the window object sees a key get pressed (w in this case)
 #    we tell it that it should call the 'goup' function.
 wn.onkeypress(goup, "w")
+wn.onkeypress(goup, "Up")
 
 # Now we'll add the others
 wn.onkeypress(godown, "s")
+wn.onkeypress(godown, "Down")
 wn.onkeypress(goleft, "a")
+wn.onkeypress(goleft, "Left")
 wn.onkeypress(goright, "d")
+wn.onkeypress(goright, "Right")
 
 wn.onkeypress(increase, "-")
-wn.onkeypress(decrease, '=')
+wn.onkeypress(decrease, 'equal')
 
-wn.onkeypress(scoreinc, '[')
-wn.onkeypress(scoredec, ']')
+wn.onkeypress(scoreinc, 'bracketleft')
+wn.onkeypress(scoredec, 'bracketright')
 
-wn.onkeypress(mute, ',')
-wn.onkeypress(unmute, '.')
+wn.onkeypress(mute, 'comma')
+wn.onkeypress(unmute, 'period')
 
 
 # Create an empty list
