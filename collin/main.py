@@ -1,6 +1,7 @@
 from cProfile import label
 from math import pi
 import tkinter
+import pygame
 import os
 from playsound import playsound
 import turtle
@@ -10,6 +11,14 @@ import pprint
 from tkinter import BOTTOM, W, LEFT, Label, Entry, BOTH, VERTICAL, PhotoImage, PanedWindow, Tk # resize
 
 p = os.path.dirname(os.path.abspath(__file__))
+
+pygame.mixer.init()
+s_boom = pygame.mixer.Sound(f'{p}/sounds/boom.wav')
+s_rip = pygame.mixer.Sound(f'{p}/sounds/rip.wav')
+s_screamed = pygame.mixer.Sound(f'{p}/sounds/screamed.wav')
+s_scary = pygame.mixer.Sound(f'{p}/sounds/scary.wav')
+s_oof = pygame.mixer.Sound(f'{p}/sounds/oof.wav')
+
 
 # How fast our game loop should run
 delay = 0.1
@@ -447,12 +456,14 @@ while True:
         new_segment.color("grey")
         new_segment.penup()
         if is_muted == False:
-            playsound(f'{p}/sounds/rip.wav', True)
+            #playsound(f'{p}/sounds/rip.wav', True)
+            pygame.mixer.Sound.play(s_rip)
         
         # Add our segment to the list
         segments.append(new_segment)
         if is_muted == False:
-            playsound(f'{p}/sounds/boom.wav', True)
+            #playsound(f'{p}/sounds/boom.wav', True)
+            pygame.mixer.Sound.play(s_boom)
 
         # Let's make our snake go a little faster by shortening delay some
         delay -= 0.003
@@ -480,7 +491,8 @@ while True:
     for segment in segments:
         if segment.distance(head) < 20:
             if is_muted == False:
-                playsound(f'{p}/sounds/screamed.wav', True)
+                #playsound(f'{p}/sounds/screamed.wav', True)
+                pygame.mixer.Sound.play(s_screamed)
             # Pause for a second so we can observer the disaster
             time.sleep(1)
             
@@ -520,7 +532,8 @@ while True:
     #   Etc. - For now, these numbers are fine.
     if head.xcor() > 290 or head.xcor() < -290 or head.ycor() > 290 or head.ycor() < -290:
         if is_muted == False:
-            playsound(f'{p}/sounds/scary.wav', True)
+            #playsound(f'{p}/sounds/scary.wav', True)
+            pygame.mixer.Sound.play(s_scary)
         time.sleep(1)
         head.goto(0,0)
         head.direction = "stop"
@@ -528,7 +541,8 @@ while True:
             segment.goto(1000,1000)
         segments.clear()
         if is_muted == False:
-            playsound(f'{p}/sounds/oof.wav', True)
+            #playsound(f'{p}/sounds/oof.wav', True)
+            pygame.mixer.Sound.play(s_oof)
         set_high_scores()
         score = 0
         delay = 0.1
