@@ -140,11 +140,15 @@ wn.listen()
 # When the window object sees a key get pressed (w in this case)
 #    we tell it that it should call the 'goup' function.
 wn.onkeypress(goup, "w")
+wn.onkeypress(goup, "Up")
 
 # Now we'll add the others
 wn.onkeypress(godown, "s")
+wn.onkeypress(godown, "Down")
 wn.onkeypress(goleft, "a")
+wn.onkeypress(goleft, "Left")
 wn.onkeypress(goright, "d")
+wn.onkeypress(goright, "Right")
 
 # Create an empty list
 segments = []
