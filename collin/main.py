@@ -447,12 +447,12 @@ while True:
         new_segment.color("grey")
         new_segment.penup()
         if is_muted == False:
-            playsound('sounds/rip.wav', False)
+            playsound(f'{p}/sounds/rip.wav', False)
         
         # Add our segment to the list
         segments.append(new_segment)
         if is_muted == False:
-            playsound('sounds/boom.wav', False)
+            playsound(f'{p}/sounds/boom.wav', False)
 
         # Let's make our snake go a little faster by shortening delay some
         delay -= 0.003
@@ -480,7 +480,7 @@ while True:
     for segment in segments:
         if segment.distance(head) < 20:
             if is_muted == False:
-                playsound('sounds/screamed.wav', False)
+                playsound(f'{p}/sounds/screamed.wav', False)
             # Pause for a second so we can observer the disaster
             time.sleep(1)
             
@@ -520,7 +520,7 @@ while True:
     #   Etc. - For now, these numbers are fine.
     if head.xcor() > 290 or head.xcor() < -290 or head.ycor() > 290 or head.ycor() < -290:
         if is_muted == False:
-            playsound('sounds/scary.wav', False)
+            playsound(f'{p}/sounds/scary.wav', False)
         time.sleep(1)
         head.goto(0,0)
         head.direction = "stop"
@@ -528,7 +528,7 @@ while True:
             segment.goto(1000,1000)
         segments.clear()
         if is_muted == False:
-            playsound('sounds/oof.wav', False)
+            playsound(f'{p}/sounds/oof.wav', False)
         set_high_scores()
         score = 0
         delay = 0.1
