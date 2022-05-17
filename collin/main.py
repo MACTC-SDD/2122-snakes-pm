@@ -156,6 +156,8 @@ pen.hideturtle()
 # This is where our text will start, 250 pixels above the center of the window
 pen.goto(0,230)
 
+l_font = ("Arial", 10)
+s_font = ("Arial", 8)
 
 p1 = PanedWindow(orient=VERTICAL)
 p1.place(width=400, height=600, x=0)
@@ -171,7 +173,7 @@ for c in range(0,10):
 p1.add(Label(p1, text="_____________________________________________________________________"))
 p1.add(Label(p1, text="Note"))
 p1.add(Label(p1, text="------------------------------------"))
-p1.add(Label(p1, text="When entering your name, Press the tab button to exit out of the window"))
+p1.add(Label(p1, text="When entering your name, Press the tab button to exit out of the window", font=s_font))
 p1.add(Label(p1, text="_____________________________________________________________________"))
 p1.add(Label(p1, text="Enter Name in the white box below:"))
 p1.add(Label(p1, text="_____________________________________________________________________"))
@@ -185,9 +187,10 @@ p2.place(width=400, height=600, x=1000)
 
 #left = Label(p1, text="Left Panel")
 #p1.add(left)
+
 p2.add(Label(p2, text="Controls/Manual/info"))
 p2.add(Label(p2, text="____________________________________________________________________"))
-p2.add(Label(p2, text="/ | Cycles Through a Variety of Preset Keysets (Recommended for QOL)"))
+p2.add(Label(p2, text="/ | Cycles Through a Variety of Preset Keysets (Recommended for QOL)", font=s_font))
 p2.add(Label(p2, text="--------------------------------------------------------------------"))
 p2.add(Label(p2, text="1. WASD"))
 p2.add(Label(p2, text="2. All Arrow Keys"))
@@ -207,9 +210,9 @@ p2.add(Label(p2, text=". | Unmutes All Audio"))
 p2.add(Label(p2, text="____________________________________________________________________"))
 p2.add(Label(p2, text="Credits / Playtesters"))
 p2.add(Label(p2, text="____________________________________________________________________"))
-p2.add(Label(p2, text="Playtesters: Jesus Boy "))
-p2.add(Label(p2, text="Main Code/Helped: Jayden, C. Brown, Anonymous Friend "))
-p2.add(Label(p2, text="Edited Code/Project Manager/Voice Actor For the Death SFX: Collin R "))
+p2.add(Label(p2, text="Playtesters: Jesus Boy ", font=s_font))
+p2.add(Label(p2, text="Main Code/Helped: Jayden, C. Brown, Anonymous Friend ", font=s_font))
+p2.add(Label(p2, text="Edited Code/Project Manager/Voice Actor For the Death SFX: Collin R ", font=s_font))
 
 
 # The .write() method writes text to the screen. You can see that it has several
