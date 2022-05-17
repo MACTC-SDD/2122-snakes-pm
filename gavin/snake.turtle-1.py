@@ -1,19 +1,18 @@
 
 # We will need to use three standard modules
-import os
 import turtle
 import time
 import random
-from math import sqrt
-from tkinter import PhotoImage
-
-p = os.path.dirname(__file__)
-
+import os
+from math import sqrt 
+from tkinter import PhotoImage, font
+from playsound import playsound
 # How fast our game loop should run
 delay = 0.1
 score = 0
 high_score = 0
 
+p = os.path.dirname(os.path.abspath(__file__))
 
 # To create a window we use a function 
 # from the turtle module called 'Screen()'
@@ -26,7 +25,8 @@ wn = turtle.Screen()
 wn.title("Snake Game")
 
 # The same goes for setting the background color of the window
-wn.bgcolor("grey")
+wn.bgcolor("light blue")
+wn.bgpic(f'{p}/assets/background (1).gif')
 
 # Set the size of our window
 wn.setup(width=600, height=600)
@@ -34,22 +34,26 @@ wn.setup(width=600, height=600)
 # Set the refresh rate
 wn.tracer(0)
 
+#pprint.pprint (vars(wn))
+wn._root.resizable(False, False)
+
 # images to load
 snake_head_north = PhotoImage(file=f'{p}/assets/snake_head/snake_head-0.gif').zoom(3, 3).subsample(5, 5)
 snake_head_east = PhotoImage(file=f'{p}/assets/snake_head/snake_head-1.gif').zoom(3, 3).subsample(5, 5)
 snake_head_south = PhotoImage(file=f'{p}/assets/snake_head/snake_head-2.gif').zoom(3, 3).subsample(5, 5)
 snake_head_west = PhotoImage(file=f'{p}/assets/snake_head/snake_head-3.gif').zoom(3, 3).subsample(5, 5)
-
-
+food_1 = PhotoImage(file=f'{p}/assets/food.gif').zoom(3,3).subsample(5,5)
 # loading images into window
 wn.addshape("snake_head_north", turtle.Shape("image", snake_head_north))
 wn.addshape("snake_head_east", turtle.Shape("image", snake_head_east))
 wn.addshape("snake_head_south", turtle.Shape("image", snake_head_south))
 wn.addshape("snake_head_west", turtle.Shape("image", snake_head_west))
+wn.addshape("food_1",  turtle.Shape("image", food_1))
 
 # Create a new turtle object, we'll call it 'head'
 head = turtle.Turtle()
 
+turtle.hideturtle()
 # Set the shape of our turtle
 head.shape("snake_head_north") #TODO: change
 
@@ -77,7 +81,7 @@ shapes = random.choice(['square','triangle','circle'])
 food.speed(0)
 
 # Use the random shape we picked above
-food.shape(shapes)
+food = turtle.Turtle('food_1')
 
 # Use the random color we picked above
 food.color(colors)
@@ -92,7 +96,9 @@ pen.speed(0)
 pen.shape("square")
 pen.color("white")
 pen.penup()
-
+pen.goto(0,250)
+pen.write(f"Snake Game", align="center",
+    font=("Times New Roman",30,"bold"))
 # We don't want to actually see the turtle
 # We just want to use it's ability to print text
 pen.hideturtle()
@@ -104,8 +110,9 @@ pen.goto(0,250)
 #    parameters that allow changing the size, font, alignment, etc.
 # This writes out our initial score, but we will use the same line
 #    when we want to update our score later.
-pen.write(f"Score : {score}  High Score : {high_score}", align="center",
-    font=("candara",24,"bold"))
+pen.hideturtle()
+
+
 # If an 'up' key is hit
 def goup():
     if head.direction != "down":
@@ -123,6 +130,26 @@ def goleft():
     head.shape("snake_head_west")
 
 def goright():
+    if head.direction != "left":
+        head.direction = "right"
+    head.shape("snake_head_east")
+
+def goup1():
+    if head.direction != "down":
+        head.direction = "up"
+    head.shape("snake_head_north")
+        
+def godown1():
+    if head.direction != "up":
+        head.direction = "down"
+    head.shape("snake_head_south")
+        
+def goleft1():
+    if head.direction != "right":
+        head.direction = "left"
+    head.shape("snake_head_west")
+
+def goright1():
     if head.direction != "left":
         head.direction = "right"
     head.shape("snake_head_east")
@@ -156,10 +183,17 @@ wn.onkeypress(goup, "Up")
 wn.onkeypress(godown, "Down")
 wn.onkeypress(goleft, "Left")
 wn.onkeypress(goright, "Right")
-# Create an empty list
+wn.onkeypress(goup1, "w")
+
+# Now we'll add the others
+wn.onkeypress(godown1, "s")
+wn.onkeypress(goleft1, "a")
+wn.onkeypress(goright1, "d")
 segments = []
 speed_counter = 0
 # Main gameplay loop
+
+
 
 # Hourglass shape
 shape_vbody =((8, -12),(8, 12),
@@ -196,7 +230,7 @@ while True:
         # Let's make our snake go a little faster by shortening delay some
     
         # Add 10 to our score
-        score += 10
+        score += 1
     
         # If our new score is > high_score, we have a new high score
         if score > high_score:
@@ -205,7 +239,7 @@ while True:
         # Update score display
         pen.clear()
         pen.write(f"Score : {score}  High Score : {high_score}", align="center",
-            font=("candara",24,"bold"))
+            font=("Candara",30,"bold"))
 
     if speed_counter > 0:
         delay = 0.05 #Boost speed
@@ -269,7 +303,8 @@ while True:
             # Update score
             pen.clear()
             pen.write(f"Score : {score}  High Score : {high_score}", align="center",
-                font=("candara",24,"bold"))
+                font=("candara",30,"bold"))
+                
     # Check for too close to a wall
     
     # We'll count anything within 10px of any edge as a hit
@@ -290,5 +325,7 @@ while True:
         speed_counter = 0
         pen.clear()
         pen.write(f"Score : {score}  High Score : {high_score}", align="center",
-            font=("candara",24,"bold"))
+            font=("candara",30,"bold"))
     time.sleep(delay)
+
+    turtle.hideturtle
