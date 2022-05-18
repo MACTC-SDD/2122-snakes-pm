@@ -8,9 +8,14 @@ import turtle
 import time
 import random
 import pprint
+import requests
 from tkinter import BOTTOM, W, LEFT, Label, Entry, BOTH, VERTICAL, PhotoImage, PanedWindow, Tk # resize
 
 p = os.path.dirname(os.path.abspath(__file__))
+
+game_title = 'A Mistake (Collin)'
+hs_link = 'http://api.snakegame.cf/scores'
+player_name = "???"
 
 pygame.mixer.init()
 s_boom = pygame.mixer.Sound(f'{p}/sounds/boom.wav')
@@ -516,6 +521,14 @@ while True:
             # Reset current score
             set_high_scores()
 
+            # Save score to leaderboard
+            try:
+                data=f'"name": "{player_name}", "score": "{score}", "game": "{game_title}"'
+                data = '{' + data + '}'
+                r = requests.post(f'{hs_link}', headers={'Content-Type': 'application/json'}, data=data)
+            except:
+                print(f'Failed to post high score: {r.status_code}')
+
             score = 0
             
             # Reset delay
@@ -547,6 +560,15 @@ while True:
             #playsound(f'{p}/sounds/oof.wav', True)
             pygame.mixer.Sound.play(s_oof)
         set_high_scores()
+
+        # Save score to leaderboard
+        try:
+            data=f'"name": "{player_name}", "score": "{score}", "game": "{game_title}"'
+            data = '{' + data + '}'
+            r = requests.post(f'{hs_link}', headers={'Content-Type': 'application/json'}, data=data)
+        except:
+            print(f'Failed to post high score: {r.status_code}')
+
         score = 0
         delay = 0.1
         pen.clear()
