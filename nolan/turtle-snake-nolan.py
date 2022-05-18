@@ -3,16 +3,22 @@
 import turtle
 import time
 import random
-from playsound import playsound
+#from playsound import playsound
 from tkinter import PhotoImage
 import os
 import requests
+import pygame
 
 p = os.path.dirname(os.path.abspath(__file__))
 
 game_title = 'Mommy (Nolan)'
 hs_link = 'http://api.snakegame.cf/scores'
 player_name = "???"
+
+# Load audio
+pygame.mixer.init()
+snd_mommy = pygame.mixer.Sound(f"{p}/sounds/oh-mommy.wav")
+snd_send_mommy = pygame.mixer.Sound(f"{p}/sounds/send-mommy.wav")
 
 # How fast our game loop should run
 delay = 0.1
@@ -140,11 +146,16 @@ wn.listen()
 # When the window object sees a key get pressed (w in this case)
 #    we tell it that it should call the 'goup' function.
 wn.onkeypress(goup, "w")
+wn.onkeypress(goup, "Up")
 
 # Now we'll add the others
 wn.onkeypress(godown, "s")
+wn.onkeypress(godown, "Down")
 wn.onkeypress(goleft, "a")
+wn.onkeypress(goleft,"Left")
 wn.onkeypress(goright, "d")
+wn.onkeypress(goright, "Right")
+
 # Create an empty list
 segments = []
 # Main gameplay loop
@@ -171,7 +182,8 @@ while True:
         # Add our segment to the list
         segments.append(new_segment)
 
-        playsound(f'{p}/sounds/oh-mommy.wav',False)
+       # playsound(f'{p}/sounds/oh-mommy.wav',False)
+        pygame.mixer.Sound.play(snd_mommy)
     
         # Let's make our snake go a little faster by shortening delay some
         delay -= 0.001
@@ -203,7 +215,8 @@ while True:
     # Check to see if head is too close to any segment
     for segment in segments:
         if segment.distance(head) < 20:
-            playsound(f'{p}/sounds/send-mommy.wav')
+            #playsound(f'{p}/sounds/send-mommy.wav')
+            pygame.mixer.Sound.play(snd_send_mommy)
             # Pause for a second so we can observer the disaster
             time.sleep(1)
             
@@ -256,7 +269,8 @@ while True:
         for segment in segments:
             segment.goto(1000,1000)
         segments.clear()
-        playsound(f'{p}/sounds/send-mommy.wav')
+        #playsound(f'{p}/sounds/send-mommy.wav')
+        pygame.mixer.Sound.play(snd_send_mommy)
 
         # Save score to leaderboard
         try:
