@@ -227,6 +227,24 @@ p2.add(Label(p2, text="Edited Code/Project Manager/Voice Actor For the Death SFX
 
 
 # If an 'up' key is hit
+def load_scores():
+    global high_scores
+    high_scores = []
+    if os.path.exists(f'{p}/scores.cfg'):
+        with open(f'{p}/scores.cfg') as f:
+            lines = f.readlines()
+            for l in lines:
+                kvp = l.split(':')
+                try:
+                    # Silly, but if we can convert it to int, do so
+                    kvp[1] = int(kvp[1])
+                except: pass
+                high_scores.append({'name': kvp[0], "score": kvp[1]})
+
+def save_scores():
+    with open(f'{p}/scores.cfg', 'w') as f:   
+        for h in high_scores:     
+            f.write(f'{h["name"]}:{h["score"]}\n')
 
 def goup():
     if head.direction != "down":
@@ -284,6 +302,7 @@ def set_high_scores():
     for c in range(0,min(10,len(high_scores))):
         lb_labels[c].configure(text=f"{c+1}. {high_scores[c]['name']} | {high_scores[c]['score']}")
 
+    save_scores()
     print(high_scores)
 # Call this to move the head based on direction
 def move():
@@ -415,7 +434,9 @@ def image_change():
     for s in segments:
         s.shape(img)
 
-    
+load_scores()
+set_high_scores()
+
 wn.listen()
 
 change_keyset("normal")
@@ -560,7 +581,7 @@ while True:
             #playsound(f'{p}/sounds/oof.wav', True)
             pygame.mixer.Sound.play(s_oof)
         set_high_scores()
-
+        save_scores()
         # Save score to leaderboard
         try:
             data=f'"name": "{player_name}", "score": "{score}", "game": "{game_title}"'
